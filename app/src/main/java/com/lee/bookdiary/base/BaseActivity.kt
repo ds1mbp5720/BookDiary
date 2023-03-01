@@ -15,6 +15,7 @@ abstract class BaseActivity<T : ViewDataBinding, E : BaseViewModel> : AppCompatA
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initObserve()
+        initViews()
         initDataBinding()
     }
 
@@ -48,4 +49,5 @@ abstract class BaseActivity<T : ViewDataBinding, E : BaseViewModel> : AppCompatA
     open fun initObserve() {
 
     }
+    open fun initViews() = Unit
 }
