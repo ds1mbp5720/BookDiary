@@ -30,4 +30,6 @@ abstract class BaseFragment<T : ViewDataBinding, E : BaseViewModel> : Fragment()
 
     open fun initObserve(){
     }
+
+    open fun initViews() = Unit
 }
