@@ -1,15 +1,25 @@
 package com.lee.bookdiary.search
 
+import android.content.Intent
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.bookdiary.R
 import com.lee.bookdiary.base.BaseFragment
 import com.lee.bookdiary.databinding.SearchFragmentBinding
 import com.lee.bookdiary.search.adapter.SearchAdapter
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SearchFragment:BaseFragment<SearchFragmentBinding,SearchViewModel>(){
     override val layoutId = R.layout.search_fragment
     override val viewModel: SearchViewModel by viewModels()
+
     private lateinit var searchAdapter: SearchAdapter
 
     companion object {
@@ -18,6 +28,7 @@ class SearchFragment:BaseFragment<SearchFragmentBinding,SearchViewModel>(){
     }
     override fun initViews() {
         super.initViews()
+        setBookInfoRecyclerview()
     }
 
     override fun initObserve() {
@@ -27,5 +38,58 @@ class SearchFragment:BaseFragment<SearchFragmentBinding,SearchViewModel>(){
             dataBinding.etSearch.setText("")
             dataBinding.recyclerVwBookInfo.isVisible = false
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.pagingDataFlow.collectLatest {
+                searchAdapter.submitData(it)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.saveFavoritePosition.collectLatest {
+                if (it == -1) return@collectLatest
+                searchAdapter.snapshot()[it]?.favorite = true
+                searchAdapter.notifyItemChanged(it)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.deleteFavoritePosition.collectLatest {
+                if (it == -1) return@collectLatest
+                searchAdapter.snapshot()[it]?.favorite = false
+                searchAdapter.notifyItemChanged(it)
+            }
+        }
+
+    }
+
+    private fun setBookInfoRecyclerview(){
+        dataBinding.recyclerVwBookInfo.layoutManager = LinearLayoutManager(requireContext())
+        dataBinding.recyclerVwBookInfo.itemAnimator = null
+
+        searchAdapter = SearchAdapter() { bookInfo, position, _ ->
+            //Todo 자세히 보기 activity 추가하기
+            /*val intent = Intent(requireContext(), ::class.java)
+            intent.putExtra("bookInfo", bookInfo)
+            intent.putExtra("position", position)
+             intent 보내기*/
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            searchAdapter.loadStateFlow.collectLatest { loadStates ->
+                // 검색 결과가 없을때
+                if (loadStates.append.endOfPaginationReached) {
+                    dataBinding.twNoResult.isVisible = searchAdapter.itemCount < 1
+                } else {
+                    dataBinding.twNoResult.isVisible = false
+                }
+                // 검색 중 오류가 발생했을때
+                dataBinding.groupError.isVisible = loadStates.refresh is LoadState.Error
+
+                // 검색 로딩 중일때
+                dataBinding.progressSearch.isVisible = loadStates.refresh is LoadState.Loading
+            }
+        }
+        dataBinding.recyclerVwBookInfo.adapter = searchAdapter
     }
 }
