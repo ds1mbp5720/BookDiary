@@ -7,7 +7,10 @@ import com.lee.bookdiary.R
 import com.lee.bookdiary.base.BaseActivity
 import com.lee.bookdiary.databinding.ActivityMainBinding
 import com.lee.bookdiary.search.SearchFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
     override val layoutId: Int = R.layout.activity_main
     override val viewModel: MainViewModel by viewModels()
