@@ -20,11 +20,11 @@ abstract class BaseFragment<T : ViewDataBinding, E : BaseViewModel> : Fragment()
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        initObserve()
         dataBinding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         dataBinding.lifecycleOwner = viewLifecycleOwner
         dataBinding.setVariable(BR.viewModel, viewModel)
-
+        initObserve()
+        initViews()
         return dataBinding.root
     }
 
