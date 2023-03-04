@@ -1,6 +1,8 @@
 package com.lee.bookdiary.search
 
-import android.content.Intent
+import android.content.Context
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -13,7 +15,6 @@ import com.lee.bookdiary.search.adapter.SearchAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchFragment:BaseFragment<SearchFragmentBinding,SearchViewModel>(){
@@ -29,6 +30,7 @@ class SearchFragment:BaseFragment<SearchFragmentBinding,SearchViewModel>(){
     override fun initViews() {
         super.initViews()
         setBookInfoRecyclerview()
+        setKeyboardSearchEditText()
     }
 
     override fun initObserve() {
@@ -37,6 +39,20 @@ class SearchFragment:BaseFragment<SearchFragmentBinding,SearchViewModel>(){
         viewModel.deleteClick.observe(this){
             dataBinding.etSearch.setText("")
             dataBinding.recyclerVwBookInfo.isVisible = false
+            (activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).
+            showSoftInput(dataBinding.etSearch,0)
+        }
+
+        viewModel.searchClick.observe(this){
+            if (dataBinding.etSearch.text.isNotEmpty()) {
+                viewModel.searchBook(dataBinding.etSearch.text.toString().trim())
+                dataBinding.recyclerVwBookInfo.isVisible = true
+                dataBinding.groupSearch.isVisible = false
+            } else {
+                dataBinding.recyclerVwBookInfo.isVisible = false
+                dataBinding.groupSearch.isVisible = true
+                dataBinding.groupError.isVisible = false
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -61,6 +77,16 @@ class SearchFragment:BaseFragment<SearchFragmentBinding,SearchViewModel>(){
             }
         }
 
+    }
+    private fun setKeyboardSearchEditText(){
+        dataBinding.etSearch.setOnEditorActionListener { v, actionId, event ->
+            if(actionId == EditorInfo.IME_ACTION_SEARCH){
+                viewModel.onSearchCLick()
+                (activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).
+                    hideSoftInputFromWindow(dataBinding.etSearch.windowToken,0)
+            }
+            true
+        }
     }
 
     private fun setBookInfoRecyclerview(){
