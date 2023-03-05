@@ -1,6 +1,7 @@
 package com.lee.bookdiary.search
 
 import android.content.Context
+import android.content.Intent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.bookdiary.R
 import com.lee.bookdiary.base.BaseFragment
 import com.lee.bookdiary.databinding.SearchFragmentBinding
+import com.lee.bookdiary.detail.DetailActivity
 import com.lee.bookdiary.search.adapter.SearchAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -95,10 +97,10 @@ class SearchFragment:BaseFragment<SearchFragmentBinding,SearchViewModel>(){
 
         searchAdapter = SearchAdapter() { bookInfo, position, _ ->
             //Todo 자세히 보기 activity 추가하기
-            /*val intent = Intent(requireContext(), ::class.java)
+            val intent = Intent(requireContext(), DetailActivity::class.java)
             intent.putExtra("bookInfo", bookInfo)
             intent.putExtra("position", position)
-             intent 보내기*/
+            startActivity(intent)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
