@@ -1,6 +1,9 @@
 package com.lee.bookdiary.detail
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -8,8 +11,12 @@ import com.lee.bookdiary.R
 import com.lee.bookdiary.base.BaseActivity
 import com.lee.bookdiary.data.BookInfo
 import com.lee.bookdiary.databinding.DetailActivityBinding
+import com.lee.bookdiary.eventbus.BookInfoEvent
 import com.lee.bookdiary.search.getDateString
 import jp.wasabeef.glide.transformations.BlurTransformation
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 
 class DetailActivity : BaseActivity<DetailActivityBinding, DetailViewModel>() {
@@ -19,6 +26,14 @@ class DetailActivity : BaseActivity<DetailActivityBinding, DetailViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 
     override fun initViews() {
@@ -34,7 +49,6 @@ class DetailActivity : BaseActivity<DetailActivityBinding, DetailViewModel>() {
         }
     }
     private fun setBookInfo(bookInfo: BookInfo){
-
         Glide.with(this@DetailActivity)
             .load(bookInfo.thumbnail)
             .apply(RequestOptions.bitmapTransform(BlurTransformation(22)))
@@ -60,5 +74,10 @@ class DetailActivity : BaseActivity<DetailActivityBinding, DetailViewModel>() {
             twBookDescription.text = String.format(getString(R.string.book_contents), bookInfo.contents)
         }
 
+    }
+
+    @Subscribe
+    fun onEvent(event: BookInfoEvent){
+        viewModel.setBookInfo(event.bookInfo)
     }
 }

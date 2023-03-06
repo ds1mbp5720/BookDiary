@@ -12,7 +12,6 @@ class DetailViewModel @Inject constructor(application: Application) : BaseViewMo
     private val _bookInfoLiveData = MutableLiveData<BookInfo>()
     val bookInfoLiveData: LiveData<BookInfo> = _bookInfoLiveData
 
-
     fun setBookInfo(bookInfo: BookInfo) {
         _bookInfoLiveData.value = bookInfo
     }
