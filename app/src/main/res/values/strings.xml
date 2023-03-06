@@ -15,7 +15,14 @@
     <string name="error_book_list_loading">오류가 발생했습니다.</string>
 
     <string name="translate">%s 역</string>
-    <string name="price">%s원</string>
+    <string name="won">%s원</string>
     <string name="no_result">검색 결과없음</string>
     <string name="search_for_book">책을 검색해보세요</string>
+    <string name="book_description">작품 소개</string>
+    <string name="translator">역자</string>
+    <string name="author">저자</string>
+    <string name="publisher">출판사</string>
+    <string name="price">가격</string>
+    <string name="book_contents">%s...</string>
+    <string name="release_date">출시일</string>
 </resources>

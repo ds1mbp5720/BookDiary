@@ -31,7 +31,7 @@ class SearchAdapter (
             twTitle.text = bookInfo.title
             twAuthor.text = if (bookInfo.authors.isNotEmpty()) bookInfo.authors[0] else null
             twPublisher.text = bookInfo.publisher
-            twPrice.text =  String.format(root.context.getString(R.string.price), bookInfo.price) //bookInfo.price.toString() + "원"
+            twPrice.text =  String.format(root.context.getString(R.string.won), bookInfo.price) //bookInfo.price.toString() + "원"
             twStatus.text = bookInfo.status
 
             Glide.with(root)
