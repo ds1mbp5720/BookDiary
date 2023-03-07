@@ -16,4 +16,8 @@ class DetailViewModel @Inject constructor(application: Application) : BaseViewMo
         _bookInfoLiveData.value = bookInfo
     }
 
+    fun setBookFavorite(favorite: Boolean) {
+        _bookInfoLiveData.value?.favorite = favorite
+    }
+
 }
