@@ -14,9 +14,10 @@ abstract class BaseActivity<T : ViewDataBinding, E : BaseViewModel> : AppCompatA
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initDataBinding()
         initObserve()
         initViews()
-        initDataBinding()
+
     }
 
     private fun initDataBinding() {

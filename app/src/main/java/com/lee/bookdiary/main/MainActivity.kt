@@ -1,6 +1,8 @@
 package com.lee.bookdiary.main
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.lee.bookdiary.R
@@ -26,10 +28,21 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
             null -> showFragment(SearchFragment.newInstance(), SearchFragment.TAG)
             SearchFragment.TAG -> showFragment(SearchFragment.newInstance(), SearchFragment.TAG)
         }
+
     }
 
     override fun initObserve() {
-        super.initObserve()
+        viewModel.navigationMenuClick.observe(this){
+            dataBinding.drawerLayout.openDrawer(dataBinding.navigationViewMain)
+            Log.e(TAG,"네비게이션 터치")
+        }
+        viewModel.navigationCloseClick.observe(this){
+            dataBinding.drawerLayout.closeDrawer(dataBinding.navigationViewMain)
+            Log.e(TAG,"네비게이션 터치")
+        }
+        dataBinding.iwMenu.setOnClickListener {
+            Log.e(TAG,"터치 이벤트")
+        }
 
     }
 
