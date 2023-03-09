@@ -1,6 +1,8 @@
 package com.lee.bookdiary.main
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.lee.bookdiary.R
@@ -17,7 +19,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
     }
 
     override fun initViews() {
@@ -26,11 +27,27 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
             null -> showFragment(SearchFragment.newInstance(), SearchFragment.TAG)
             SearchFragment.TAG -> showFragment(SearchFragment.newInstance(), SearchFragment.TAG)
         }
+
     }
 
     override fun initObserve() {
         super.initObserve()
 
+        viewModel.navigationMenuClick.observe(this){
+            dataBinding.drawerLayout.openDrawer(dataBinding.navigationViewMain)
+        }
+        viewModel.navigationCloseClick.observe(this){
+            dataBinding.drawerLayout.closeDrawer(dataBinding.navigationViewMain)
+        }
+        viewModel.readCountClick.observe(this){
+            //Todo 읽은 책 수 클릭 이벤트
+        }
+        viewModel.settingClick.observe(this){
+            //Todo setting page
+        }
+        viewModel.developerClick.observe(this){
+            //Todo developer info page
+        }
     }
 
     private fun showFragment(fragment: Fragment, tag: String) {
