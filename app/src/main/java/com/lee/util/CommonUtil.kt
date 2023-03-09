@@ -1,4 +1,4 @@
-package com.lee.bookdiary.search
+package com.lee.util
 
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
