@@ -1,9 +1,6 @@
 package com.lee.bookdiary.detail
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -12,11 +9,10 @@ import com.lee.bookdiary.base.BaseActivity
 import com.lee.bookdiary.data.BookInfo
 import com.lee.bookdiary.databinding.DetailActivityBinding
 import com.lee.bookdiary.eventbus.BookInfoEvent
-import com.lee.bookdiary.search.getDateString
+import com.lee.util.getDateString
 import jp.wasabeef.glide.transformations.BlurTransformation
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 
 
 class DetailActivity : BaseActivity<DetailActivityBinding, DetailViewModel>() {
