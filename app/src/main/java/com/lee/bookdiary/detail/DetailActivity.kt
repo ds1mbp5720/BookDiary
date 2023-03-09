@@ -9,12 +9,13 @@ import com.lee.bookdiary.base.BaseActivity
 import com.lee.bookdiary.data.BookInfo
 import com.lee.bookdiary.databinding.DetailActivityBinding
 import com.lee.bookdiary.eventbus.BookInfoEvent
-import com.lee.util.getDateString
+import com.lee.bookdiary.search.getDateString
+import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.glide.transformations.BlurTransformation
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
-
+@AndroidEntryPoint
 class DetailActivity : BaseActivity<DetailActivityBinding, DetailViewModel>() {
     override val layoutId = R.layout.detail_activity
     override val viewModel: DetailViewModel by viewModels()
@@ -39,7 +40,6 @@ class DetailActivity : BaseActivity<DetailActivityBinding, DetailViewModel>() {
     }
 
     override fun initObserve() {
-        super.initObserve()
         viewModel.bookInfoLiveData.observe(this){
             setBookInfo(it)
         }
