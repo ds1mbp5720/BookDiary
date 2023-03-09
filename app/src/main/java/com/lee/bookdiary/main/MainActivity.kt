@@ -19,7 +19,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
     }
 
     override fun initViews() {
@@ -32,18 +31,23 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
     }
 
     override fun initObserve() {
+        super.initObserve()
+
         viewModel.navigationMenuClick.observe(this){
             dataBinding.drawerLayout.openDrawer(dataBinding.navigationViewMain)
-            Log.e(TAG,"네비게이션 터치")
         }
         viewModel.navigationCloseClick.observe(this){
             dataBinding.drawerLayout.closeDrawer(dataBinding.navigationViewMain)
-            Log.e(TAG,"네비게이션 터치")
         }
-        dataBinding.iwMenu.setOnClickListener {
-            Log.e(TAG,"터치 이벤트")
+        viewModel.readCountClick.observe(this){
+            //Todo 읽은 책 수 클릭 이벤트
         }
-
+        viewModel.settingClick.observe(this){
+            //Todo setting page
+        }
+        viewModel.developerClick.observe(this){
+            //Todo developer info page
+        }
     }
 
     private fun showFragment(fragment: Fragment, tag: String) {

@@ -17,7 +17,6 @@ abstract class BaseActivity<T : ViewDataBinding, E : BaseViewModel> : AppCompatA
         initDataBinding()
         initObserve()
         initViews()
-
     }
 
     private fun initDataBinding() {
