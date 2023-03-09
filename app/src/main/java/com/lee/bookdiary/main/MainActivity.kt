@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.lee.bookdiary.R
 import com.lee.bookdiary.base.BaseActivity
 import com.lee.bookdiary.databinding.ActivityMainBinding
+import com.lee.bookdiary.dialog.DialogMessage
 import com.lee.bookdiary.search.SearchFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -67,4 +68,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
         }
     }
 
+    override fun onBackPressed() {
+        DialogMessage(getString(R.string.str_destroy_app), getString(R.string.str_confirm), getString(R.string.str_cancel)).onRightBtn {
+            finish()
+        }.show(supportFragmentManager, "")
+    }
 }

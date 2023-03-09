@@ -9,7 +9,7 @@ import com.lee.bookdiary.base.BaseActivity
 import com.lee.bookdiary.data.BookInfo
 import com.lee.bookdiary.databinding.DetailActivityBinding
 import com.lee.bookdiary.eventbus.BookInfoEvent
-import com.lee.bookdiary.search.getDateString
+import com.lee.bookdiary.util.getDateString
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.glide.transformations.BlurTransformation
 import org.greenrobot.eventbus.EventBus
