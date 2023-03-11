@@ -10,6 +10,8 @@ import com.lee.bookdiary.base.BaseActivity
 import com.lee.bookdiary.databinding.ActivityMainBinding
 import com.lee.bookdiary.dialog.DialogMessage
 import com.lee.bookdiary.search.SearchFragment
+import com.lee.bookdiary.setting.SettingActivity
+import com.lee.bookdiary.util.simpleStartActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -44,7 +46,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
             //Todo 읽은 책 수 클릭 이벤트
         }
         viewModel.settingClick.observe(this){
-            //Todo setting page
+            simpleStartActivity(SettingActivity::class.java)
         }
         viewModel.developerClick.observe(this){
             //Todo developer info page
@@ -68,7 +70,12 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
+        if (dataBinding.drawerLayout.isOpen) {
+            dataBinding.drawerLayout.close()
+            return
+        }
         DialogMessage(getString(R.string.str_destroy_app), getString(R.string.str_confirm), getString(R.string.str_cancel)).onRightBtn {
             finish()
         }.show(supportFragmentManager, "")

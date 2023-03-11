@@ -60,7 +60,7 @@
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/navigation_view_main"
-            android:layout_width="220dp"
+            android:layout_width="180dp"
             android:layout_height="match_parent"
             android:layout_gravity="start">
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -96,34 +96,58 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:lineSpacingExtra="6dp"
-                    android:textSize="16dp"
+                    android:textSize="20dp"
                     android:textStyle="normal"
                     android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@id/tw_version_info"
                     app:layout_constraintStart_toStartOf="@id/tw_developer" />
-                <TextView
-                    android:id="@+id/tw_version_info"
+
+                <ImageView
+                    android:id="@+id/iw_setting_option"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:lineSpacingExtra="6dp"
-                    android:text="버전정보"
-                    android:textSize="16dp"
-                    android:textStyle="normal"
-                    app:layout_constraintBottom_toTopOf="@id/tw_developer"
-                    app:layout_constraintStart_toStartOf="@id/tw_developer" />
+                    android:background="@drawable/ic_baseline_settings_24"
+                    app:layout_constraintBottom_toTopOf="@id/tw_setting_option"
+                    app:layout_constraintStart_toStartOf="@id/tw_developer"/>
                 <TextView
                     android:id="@+id/tw_setting_option"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:lineSpacingExtra="6dp"
-                    android:text="환경설정"
-                    android:textSize="16dp"
+                    android:text="@string/setting"
+                    android:textSize="20dp"
                     android:textStyle="normal"
                     android:onClick="@{()->viewModel.onSettingClick()}"
-                    app:layout_constraintBottom_toTopOf="@id/tw_version_info"
+                    app:layout_constraintBottom_toTopOf="@id/iw_version_info"
                     app:layout_constraintStart_toStartOf="@id/tw_developer" />
+
+                <ImageView
+                    android:id="@+id/iw_version_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_baseline_code_24"
+                    app:layout_constraintBottom_toTopOf="@id/tw_version_info"
+                    app:layout_constraintStart_toStartOf="@id/tw_developer"/>
+                <TextView
+                    android:id="@+id/tw_version_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:lineSpacingExtra="6dp"
+                    android:text="@string/version"
+                    android:textSize="20dp"
+                    android:textStyle="normal"
+                    app:layout_constraintBottom_toTopOf="@id/iw_developer"
+                    app:layout_constraintStart_toStartOf="@id/tw_developer" />
+
+                <ImageView
+                    android:id="@+id/iw_developer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_baseline_person_pin_24"
+                    app:layout_constraintBottom_toTopOf="@id/tw_developer"
+                    app:layout_constraintStart_toStartOf="@id/tw_developer"/>
                 <TextView
                     android:id="@+id/tw_developer"
                     android:layout_width="wrap_content"
@@ -131,8 +155,8 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginBottom="50dp"
                     android:lineSpacingExtra="6dp"
-                    android:text="개발자 정보"
-                    android:textSize="16dp"
+                    android:text="@string/developer"
+                    android:textSize="20dp"
                     android:textStyle="normal"
                     android:onClick="@{()->viewModel.onDeveloperClick()}"
                     app:layout_constraintBottom_toBottomOf="parent"
