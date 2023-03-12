@@ -6,6 +6,9 @@
     <string name="search">검색</string>
     <string name="search_book">제목, 저자, 출판사 검색</string>
 
+    <string name="str_destroy_app">앱을 종료하시겠습니까?</string>
+    <string name="str_cancel">취소</string>
+    <string name="str_confirm">확인</string>
     <string name="iso_date_format">yyyy-MM-dd\'T\'HH:mm:ss.SSSX</string>
     <string name="date_format">yyyy년 MM월 dd일</string>
     <string name="save">저장하기</string>
@@ -25,4 +28,12 @@
     <string name="price">가격</string>
     <string name="book_contents">%s...</string>
     <string name="release_date">출시일</string>
+
+    <string name="setting">환경설정</string>
+    <string name="version">버전정보</string>
+    <string name="developer">개발자정보</string>
+    <string name="screen_mode">화면모드</string>
+    <string name="screen_day">주간</string>
+    <string name="screen_night">야간</string>
+    <string name="screen_system">시스템 설정</string>
 </resources>

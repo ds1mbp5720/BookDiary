@@ -32,6 +32,9 @@
             android:name=".detail.DetailActivity"
             android:exported="false">
         </activity>
+        <activity android:name=".setting.SettingActivity"
+            android:exported="false">
+        </activity>
     </application>
 
 </manifest>
