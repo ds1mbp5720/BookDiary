@@ -1,5 +1,6 @@
 package com.lee.bookdiary.detail
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide
@@ -14,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.glide.transformations.BlurTransformation
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+
 
 @AndroidEntryPoint
 class DetailActivity : BaseActivity<DetailActivityBinding, DetailViewModel>() {
@@ -37,6 +39,7 @@ class DetailActivity : BaseActivity<DetailActivityBinding, DetailViewModel>() {
         super.initViews()
         bookInfo = intent.getParcelableExtra("bookInfo")!!
         viewModel.setBookInfo(bookInfo)
+        setFavoriteButton()
     }
 
     override fun initObserve() {
@@ -68,8 +71,30 @@ class DetailActivity : BaseActivity<DetailActivityBinding, DetailViewModel>() {
             twStatus.text = bookInfo.status
             twReleaseDate.text = getDateString(bookInfo.datetime, getString(R.string.iso_date_format), getString(R.string.date_format))
             twBookDescription.text = String.format(getString(R.string.book_contents), bookInfo.contents)
+            setFavoriteButtonState()
         }
-
+    }
+    private fun setFavoriteButton(){
+        dataBinding.iwFavorite.setOnClickListener {
+            when (bookInfo.favorite) {
+                true -> {
+                    viewModel.setBookFavorite(false)
+                    bookInfo.favorite = false
+                    setFavoriteButtonState()
+                }
+                false -> {
+                    viewModel.setBookFavorite(true)
+                    bookInfo.favorite = true
+                    setFavoriteButtonState()
+                }
+            }
+        }
+    }
+    private fun setFavoriteButtonState(){
+        when (bookInfo.favorite) {
+            true -> dataBinding.iwFavorite.setImageResource(R.drawable.ic_baseline_star_24)
+            false -> dataBinding.iwFavorite.setImageResource(R.drawable.ic_baseline_star_border_24)
+        }
     }
 
     @Subscribe

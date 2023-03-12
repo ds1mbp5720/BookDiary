@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.result.ActivityResultLauncher
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -102,7 +103,6 @@ class SearchFragment:BaseFragment<SearchFragmentBinding,SearchViewModel>(){
             EventBus.getDefault().post(BookInfoEvent(bookInfo))
             val intent = Intent(requireContext(), DetailActivity::class.java)
             intent.putExtra("bookInfo", bookInfo)
-            intent.putExtra("position", position)
             startActivity(intent)
         }
 
