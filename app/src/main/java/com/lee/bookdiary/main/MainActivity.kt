@@ -9,10 +9,14 @@ import com.lee.bookdiary.R
 import com.lee.bookdiary.base.BaseActivity
 import com.lee.bookdiary.databinding.ActivityMainBinding
 import com.lee.bookdiary.dialog.DialogMessage
+import com.lee.bookdiary.eventbus.ScreenModeEvent
 import com.lee.bookdiary.search.SearchFragment
 import com.lee.bookdiary.setting.SettingActivity
+import com.lee.bookdiary.setting.ThemeUtil
+import com.lee.bookdiary.setting.data.SettingDataStore
 import com.lee.bookdiary.util.simpleStartActivity
 import dagger.hilt.android.AndroidEntryPoint
+import org.greenrobot.eventbus.Subscribe
 
 
 @AndroidEntryPoint
@@ -79,5 +83,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
         DialogMessage(getString(R.string.str_destroy_app), getString(R.string.str_confirm), getString(R.string.str_cancel)).onRightBtn {
             finish()
         }.show(supportFragmentManager, "")
+    }
+
+    @Subscribe
+    fun onEvent(e: ScreenModeEvent) {
+        ThemeUtil.applyTheme(SettingDataStore.getScreenMode())
+        recreate()
     }
 }
