@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.lee.bookdiary.pickup.adapter.PickupAdapter" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintlayout_book"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cw_thumbnail"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iw_thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:transitionName="transitionBookImage"
+                tools:src="@drawable/ic_baseline_menu_book_24" />
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <TextView
+            android:id="@+id/tw_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/iw_bookmark"
+            app:layout_constraintStart_toEndOf="@id/cw_thumbnail"
+            app:layout_constraintTop_toTopOf="@id/cw_thumbnail"
+            tools:text="title" />
+
+        <TextView
+            android:id="@+id/tw_author"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@id/tw_title"
+            app:layout_constraintStart_toStartOf="@id/tw_title"
+            app:layout_constraintTop_toBottomOf="@id/tw_title"
+            tools:text="author" />
+
+        <TextView
+            android:id="@+id/tw_publisher"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@id/tw_title"
+            app:layout_constraintStart_toStartOf="@id/tw_title"
+            app:layout_constraintTop_toBottomOf="@id/tw_author"
+            tools:text="publisher" />
+
+        <TextView
+            android:id="@+id/tw_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/tw_publisher"
+            app:layout_constraintTop_toBottomOf="@id/tw_publisher"
+            tools:text="10,000원" />
+
+        <TextView
+            android:id="@+id/tw_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/tw_price"
+            app:layout_constraintStart_toEndOf="@id/tw_price"
+            app:layout_constraintTop_toTopOf="@id/tw_price"
+            tools:text="status" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.9" />
+
+        <ImageView
+            android:id="@+id/iw_bookmark"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_baseline_star_border_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.97"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cw_thumbnail" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
