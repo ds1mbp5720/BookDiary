@@ -1,5 +1,6 @@
 package com.lee.bookdiary.main
 
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,7 @@ import com.lee.bookdiary.base.BaseActivity
 import com.lee.bookdiary.databinding.ActivityMainBinding
 import com.lee.bookdiary.dialog.DialogMessage
 import com.lee.bookdiary.eventbus.ScreenModeEvent
+import com.lee.bookdiary.pickup.PickupFragment
 import com.lee.bookdiary.search.SearchFragment
 import com.lee.bookdiary.setting.SettingActivity
 import com.lee.bookdiary.setting.ThemeUtil
@@ -33,10 +35,12 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
         when(viewModel.currentFragmentTag.value) {
             null -> showFragment(SearchFragment.newInstance(), SearchFragment.TAG)
             SearchFragment.TAG -> showFragment(SearchFragment.newInstance(), SearchFragment.TAG)
+            PickupFragment.TAG -> showFragment(PickupFragment.newInstance(), PickupFragment.TAG)
         }
-
+        Log.e("","터치: ${viewModel.currentFragmentTag.value}")
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun initObserve() {
         super.initObserve()
 
@@ -47,13 +51,22 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
             dataBinding.drawerLayout.closeDrawer(dataBinding.navigationViewMain)
         }
         viewModel.readCountClick.observe(this){
-            //Todo 읽은 책 수 클릭 이벤트
+            //Todo 선택 이벤트로 변경(fragment 이동)
+            dataBinding.twPickupBookCnt.setTextColor(R.color.teal_200)
+            viewModel.setCurrentFragment(PickupFragment.TAG)
         }
         viewModel.settingClick.observe(this){
             simpleStartActivity(SettingActivity::class.java)
         }
         viewModel.developerClick.observe(this){
             //Todo developer info page
+        }
+        viewModel.currentFragmentTag.observe(this){
+            when(it){
+                null -> showFragment(SearchFragment.newInstance(), SearchFragment.TAG)
+                SearchFragment.TAG -> showFragment(SearchFragment.newInstance(), SearchFragment.TAG)
+                PickupFragment.TAG -> showFragment(PickupFragment.newInstance(), PickupFragment.TAG)
+            }
         }
     }
 

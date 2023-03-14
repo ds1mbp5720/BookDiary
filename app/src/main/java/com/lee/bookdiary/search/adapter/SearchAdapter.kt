@@ -1,6 +1,5 @@
 package com.lee.bookdiary.search.adapter
 
-import android.content.res.loader.ResourcesProvider
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
