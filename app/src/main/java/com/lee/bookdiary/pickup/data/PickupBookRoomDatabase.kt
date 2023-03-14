@@ -1,15 +1,15 @@
 package com.lee.bookdiary.pickup.data
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
+import com.lee.bookdiary.base.RoomConverters
 import com.lee.bookdiary.pickup.dao.PickDao
 
 /**
  * room db 가져오는 역할
  */
 @Database(entities = [(PickupBookEntity::class)], exportSchema = false, version = 1)
+@TypeConverters(RoomConverters::class)
 abstract class PickupBookRoomDatabase: RoomDatabase() {
     abstract fun timetableDao(): PickDao
     companion object {

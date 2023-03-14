@@ -8,17 +8,17 @@ import androidx.fragment.app.viewModels
 import com.lee.bookdiary.R
 import com.lee.bookdiary.base.BaseFragment
 import com.lee.bookdiary.databinding.PickupFragmentBinding
+import com.lee.bookdiary.pickup.adapter.PickupAdapter
 
 class PickupFragment: BaseFragment<PickupFragmentBinding,PickupViewModel>() {
     override val layoutId: Int = R.layout.pickup_fragment
     override val viewModel: PickupViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
+    private lateinit var pickupAdapter: PickupAdapter
+
+    companion object {
+        const val TAG = "PickupFragment"
+        fun newInstance() = PickupFragment()
     }
 
     override fun initObserve() {
