@@ -28,7 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_goneMarginBottom="8dp"
-            tools:text="홈" />
+            tools:text="화면 버튼" />
 
         <View
             android:id="@+id/vw_navigation_line"

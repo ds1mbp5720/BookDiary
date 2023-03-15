@@ -1,7 +1,6 @@
 package com.lee.bookdiary.main
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels

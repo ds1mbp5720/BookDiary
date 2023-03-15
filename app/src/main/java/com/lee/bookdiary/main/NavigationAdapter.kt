@@ -1,14 +1,10 @@
 package com.lee.bookdiary.main
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.lee.bookdiary.BR
-import com.lee.bookdiary.R
 import com.lee.bookdiary.base.BaseViewHolder
 import com.lee.bookdiary.databinding.NavigationRecyclerBinding
 
