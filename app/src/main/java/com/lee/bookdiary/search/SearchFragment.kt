@@ -25,6 +25,7 @@ import org.greenrobot.eventbus.EventBus
 class SearchFragment:BaseFragment<SearchFragmentBinding,SearchViewModel>(){
     override val layoutId = R.layout.search_fragment
     override val viewModel: SearchViewModel by viewModels()
+    private val pickupViewModel: SearchViewModel by viewModels()
 
     private lateinit var searchAdapter: SearchAdapter
 
