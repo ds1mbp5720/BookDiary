@@ -30,6 +30,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
         super.onCreate(savedInstanceState)
     }
 
+    override fun onResume() {
+        super.onResume()
+        initSettingNavigation()
+    }
+
     override fun initViews() {
         super.initViews()
         when(viewModel.currentFragmentTag.value) {
@@ -84,6 +89,21 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
         } ?: kotlin.run {
             supportFragmentManager.beginTransaction().add(R.id.fragment_container_view, fragment, tag)
                 .commitAllowingStateLoss()
+        }
+    }
+
+    private fun initSettingNavigation(){
+        dataBinding.recyclerNavigation.adapter = NavigationAdapter{
+            when(it){
+                NavigationAdapter.Navigation.SEARCH ->{
+                    viewModel.setCurrentFragment(SearchFragment.TAG)
+                    dataBinding.drawerLayout.closeDrawer(dataBinding.navigationViewMain)
+                }
+                NavigationAdapter.Navigation.PICKUP ->{
+                    viewModel.setCurrentFragment(PickupFragment.TAG)
+                    dataBinding.drawerLayout.closeDrawer(dataBinding.navigationViewMain)
+                }
+            }
         }
     }
 
