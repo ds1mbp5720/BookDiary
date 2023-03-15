@@ -14,6 +14,7 @@
 + Materail3 UI/UX 
 + dataBinding사용
 + Room DB 
++ Paging3 
 + DI Hilt   
 + OkHttp4/Retrofit 활용 Coroutine을 이용한 REST 처리 
 ------------
