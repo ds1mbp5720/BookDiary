@@ -1,7 +1,6 @@
 package com.lee.bookdiary.main
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
@@ -28,6 +27,11 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initSettingNavigation()
     }
 
     override fun initViews() {
@@ -84,6 +88,21 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
         } ?: kotlin.run {
             supportFragmentManager.beginTransaction().add(R.id.fragment_container_view, fragment, tag)
                 .commitAllowingStateLoss()
+        }
+    }
+
+    private fun initSettingNavigation(){
+        dataBinding.recyclerNavigation.adapter = NavigationAdapter{
+            when(it){
+                NavigationAdapter.Navigation.SEARCH ->{
+                    viewModel.setCurrentFragment(SearchFragment.TAG)
+                    dataBinding.drawerLayout.closeDrawer(dataBinding.navigationViewMain)
+                }
+                NavigationAdapter.Navigation.PICKUP ->{
+                    viewModel.setCurrentFragment(PickupFragment.TAG)
+                    dataBinding.drawerLayout.closeDrawer(dataBinding.navigationViewMain)
+                }
+            }
         }
     }
 
