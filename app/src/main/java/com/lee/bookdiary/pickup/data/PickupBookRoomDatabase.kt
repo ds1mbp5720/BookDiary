@@ -11,7 +11,7 @@ import com.lee.bookdiary.pickup.dao.PickDao
 @Database(entities = [(PickupBookEntity::class)], exportSchema = false, version = 1)
 @TypeConverters(RoomConverters::class)
 abstract class PickupBookRoomDatabase: RoomDatabase() {
-    abstract fun timetableDao(): PickDao
+    abstract fun pickDao(): PickDao
     companion object {
         private lateinit var INSTANCE: PickupBookRoomDatabase
         internal  fun getDatabase(context: Context): PickupBookRoomDatabase{

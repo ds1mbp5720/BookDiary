@@ -12,12 +12,10 @@ import kotlinx.coroutines.launch
 class PickupBookRepository(application: Application) {
     private var coroutineScope = CoroutineScope(Dispatchers.IO)
     private var pickDao: PickDao
-    val allPickupBooks: LiveData<PickupBookEntity>
 
     init {
         val db: com.lee.bookdiary.pickup.data.PickupBookRoomDatabase = com.lee.bookdiary.pickup.data.PickupBookRoomDatabase.getDatabase(application)
-        pickDao = db.timetableDao()
-        allPickupBooks = pickDao.getAllPickupBookTable()
+        pickDao = db.pickDao()
     }
     fun insertPickupBook(pickupBook: PickupBookEntity){
         coroutineScope.launch(Dispatchers.IO){

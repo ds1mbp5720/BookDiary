@@ -21,5 +21,5 @@ interface PickDao{
 
    // 전체 반환
    @Query("SELECT * FROM book_table")
-   fun getAllPickupBookTable(): LiveData<PickupBookEntity>
+   fun getAllPickupBookTable(): List<PickupBookEntity>
 }
