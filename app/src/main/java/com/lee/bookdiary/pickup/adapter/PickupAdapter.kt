@@ -46,6 +46,10 @@ class PickupAdapter: RecyclerView.Adapter<BaseViewHolder>(), ItemHelperCallBack.
         items.addAll(item)
         notifyDataSetChanged()
     }
+    fun removeItem(position: Int) {
+        items.removeAt(position)
+        notifyItemRemoved(position)
+    }
 
     inner class ViewHolder(private val binding: PickupRecyclerBinding): BaseViewHolder(binding.root){
         override fun onBindViewHolder(data: Any?) {
@@ -63,7 +67,7 @@ class PickupAdapter: RecyclerView.Adapter<BaseViewHolder>(), ItemHelperCallBack.
                     .error(R.drawable.ic_baseline_error_outline_24)
                     .into(iwThumbnail)
                 iwBookmark.setOnClickListener {
-                    viewModel.deletePickupBook(data.id)
+                    viewModel.onDeleteClick(data)
                 }
             }
         }

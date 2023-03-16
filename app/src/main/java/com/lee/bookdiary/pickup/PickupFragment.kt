@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.bookdiary.R
 import com.lee.bookdiary.base.BaseFragment
 import com.lee.bookdiary.databinding.PickupFragmentBinding
+import com.lee.bookdiary.dialog.DialogMessage
 import com.lee.bookdiary.pickup.adapter.PickupAdapter
 import com.lee.bookdiary.pickup.data.PickupBookRoomDatabase
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,8 +40,12 @@ class PickupFragment: BaseFragment<PickupFragmentBinding,PickupViewModel>() {
             pickupAdapter.clearList()
             pickupAdapter.setList(it)
         }
-        viewModel.deleteClick.observe(this){
-
+        viewModel.deleteClick.observe(this){ data ->
+            DialogMessage("찜을 해제하시겠습니까?",getString(R.string.str_confirm),getString(R.string.str_cancel)).onRightBtn{
+                viewModel.deletePickupBook(data.id)
+                val position = pickupAdapter.getItems().indexOfFirst { it.id == data.id }
+                if (position >-1) pickupAdapter.removeItem(position)
+            }.show(parentFragmentManager,"")
         }
     }
 
