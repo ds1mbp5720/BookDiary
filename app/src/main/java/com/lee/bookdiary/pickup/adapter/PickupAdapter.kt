@@ -1,17 +1,27 @@
 package com.lee.bookdiary.pickup.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.lee.bookdiary.BR
+import com.lee.bookdiary.R
 import com.lee.bookdiary.base.BaseViewHolder
 import com.lee.bookdiary.databinding.PickupRecyclerBinding
+import com.lee.bookdiary.main.NavigationAdapter
+import com.lee.bookdiary.pickup.PickupViewModel
 import com.lee.bookdiary.pickup.data.PickupBookEntity
 import java.util.*
 
-class PickupAdapter(): RecyclerView.Adapter<BaseViewHolder>(), ItemHelperCallBack.OnItemMoveListener {
+class PickupAdapter: RecyclerView.Adapter<BaseViewHolder>(), ItemHelperCallBack.OnItemMoveListener {
     private val items = mutableListOf<PickupBookEntity>()
+    private lateinit var viewModel: PickupViewModel
+    fun setViewModel(pickupViewModel: PickupViewModel){
+        viewModel = pickupViewModel
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val bind = PickupRecyclerBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -19,9 +29,9 @@ class PickupAdapter(): RecyclerView.Adapter<BaseViewHolder>(), ItemHelperCallBac
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        val book = items[position]
+        holder.onBindViewHolder(items[position])
     }
-
+    fun getItems() = items
     override fun getItemCount(): Int = items.size
 
     @SuppressLint("NotifyDataSetChanged")
@@ -39,7 +49,23 @@ class PickupAdapter(): RecyclerView.Adapter<BaseViewHolder>(), ItemHelperCallBac
 
     inner class ViewHolder(private val binding: PickupRecyclerBinding): BaseViewHolder(binding.root){
         override fun onBindViewHolder(data: Any?) {
-            binding.setVariable(BR.data,data)
+            if (data !is PickupBookEntity) return
+            with(binding){
+                twTitle.text = data.title
+                twAuthor.text = if (data.authors!!.isNotEmpty()) data.authors[0] else null
+                twPublisher.text = data.publisher
+                twPrice.text =  String.format(root.context.getString(R.string.won), data.price)
+                twStatus.text = data.status
+
+                Glide.with(root)
+                    .load(data.thumbnail)
+                    .placeholder(R.drawable.ic_baseline_menu_book_24)
+                    .error(R.drawable.ic_baseline_error_outline_24)
+                    .into(iwThumbnail)
+                iwBookmark.setOnClickListener {
+                    viewModel.deletePickupBook(data.id)
+                }
+            }
         }
     }
 

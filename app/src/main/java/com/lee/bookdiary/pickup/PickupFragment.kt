@@ -1,6 +1,7 @@
 package com.lee.bookdiary.pickup
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +30,7 @@ class PickupFragment: BaseFragment<PickupFragmentBinding,PickupViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         db = context?.let { PickupBookRoomDatabase.getDatabase(it) }!!
         viewModel.getPickupBookList(db)
+        pickupAdapter.setViewModel(viewModel)
     }
 
     override fun initObserve() {
@@ -36,6 +38,9 @@ class PickupFragment: BaseFragment<PickupFragmentBinding,PickupViewModel>() {
         viewModel.myPickupList.observe(this){
             pickupAdapter.clearList()
             pickupAdapter.setList(it)
+        }
+        viewModel.deleteClick.observe(this){
+
         }
     }
 
@@ -47,7 +52,6 @@ class PickupFragment: BaseFragment<PickupFragmentBinding,PickupViewModel>() {
     private fun setPickupBookRecycler(){
         dataBinding.recyclerPickup.layoutManager = LinearLayoutManager(requireContext())
         dataBinding.recyclerPickup.itemAnimator = null
-
         dataBinding.recyclerPickup.adapter = pickupAdapter
     }
 }

@@ -21,7 +21,7 @@ class PickupViewModel @Inject constructor(application: Application): BaseViewMod
     fun insertPickupBook(pickupBook:PickupBookEntity){
         repository.insertPickupBook(pickupBook)
     }
-    fun DeletePickupBook(id:Int){
+    fun deletePickupBook(id:Int){
         repository.deletePickupBook(id)
     }
 
@@ -36,5 +36,11 @@ class PickupViewModel @Inject constructor(application: Application): BaseViewMod
                 }
             _myPickupList.value = bookList
         }
+    }
+
+    private val _deleteClick = SingleLiveEvent<Unit>()
+    val deleteClick: LiveData<Unit> get() = _deleteClick
+    fun onDeleteClick() {
+        _deleteClick.call()
     }
 }
