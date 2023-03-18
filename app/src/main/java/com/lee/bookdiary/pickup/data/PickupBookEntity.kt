@@ -5,11 +5,13 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.lee.bookdiary.data.BookInfo
 
 @Entity(tableName = "book_table")
 data class PickupBookEntity(
-    @PrimaryKey
-    val id : Int,
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    val id : Int = 0,
     val title: String = "",
     val contents: String = "",
     val url: String = "",

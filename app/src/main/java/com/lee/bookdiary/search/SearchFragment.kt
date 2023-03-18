@@ -15,6 +15,7 @@ import com.lee.bookdiary.base.BaseFragment
 import com.lee.bookdiary.databinding.SearchFragmentBinding
 import com.lee.bookdiary.detail.DetailActivity
 import com.lee.bookdiary.eventbus.BookInfoEvent
+import com.lee.bookdiary.pickup.PickupViewModel
 import com.lee.bookdiary.search.adapter.SearchAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -25,7 +26,7 @@ import org.greenrobot.eventbus.EventBus
 class SearchFragment:BaseFragment<SearchFragmentBinding,SearchViewModel>(){
     override val layoutId = R.layout.search_fragment
     override val viewModel: SearchViewModel by viewModels()
-    private val pickupViewModel: SearchViewModel by viewModels()
+    private val pickupViewModel: PickupViewModel by viewModels()
 
     private lateinit var searchAdapter: SearchAdapter
 

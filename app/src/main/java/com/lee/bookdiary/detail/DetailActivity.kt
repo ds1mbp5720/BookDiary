@@ -2,7 +2,10 @@ package com.lee.bookdiary.detail
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.lee.bookdiary.R
@@ -10,7 +13,10 @@ import com.lee.bookdiary.base.BaseActivity
 import com.lee.bookdiary.data.BookInfo
 import com.lee.bookdiary.databinding.DetailActivityBinding
 import com.lee.bookdiary.eventbus.BookInfoEvent
+import com.lee.bookdiary.pickup.PickupViewModel
+import com.lee.bookdiary.search.SearchViewModel
 import com.lee.bookdiary.util.getDateString
+import com.lee.bookdiary.util.toPickupBookEntity
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.glide.transformations.BlurTransformation
 import org.greenrobot.eventbus.EventBus
@@ -21,6 +27,7 @@ import org.greenrobot.eventbus.Subscribe
 class DetailActivity : BaseActivity<DetailActivityBinding, DetailViewModel>() {
     override val layoutId = R.layout.detail_activity
     override val viewModel: DetailViewModel by viewModels()
+    private val pickupViewModel: PickupViewModel by viewModels()
     private lateinit var bookInfo: BookInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +52,10 @@ class DetailActivity : BaseActivity<DetailActivityBinding, DetailViewModel>() {
     override fun initObserve() {
         viewModel.bookInfoLiveData.observe(this){
             setBookInfo(it)
+            pickupViewModel.insertPickupBook(it.toPickupBookEntity())
+        }
+        viewModel.backClick.observe(this){
+            finish()
         }
     }
     private fun setBookInfo(bookInfo: BookInfo){
