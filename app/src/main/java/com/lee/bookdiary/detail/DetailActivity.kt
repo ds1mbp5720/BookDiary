@@ -1,11 +1,8 @@
 package com.lee.bookdiary.detail
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.lee.bookdiary.R
@@ -14,13 +11,12 @@ import com.lee.bookdiary.data.BookInfo
 import com.lee.bookdiary.databinding.DetailActivityBinding
 import com.lee.bookdiary.eventbus.BookInfoEvent
 import com.lee.bookdiary.pickup.PickupViewModel
-import com.lee.bookdiary.search.SearchViewModel
 import com.lee.bookdiary.util.getDateString
-import com.lee.bookdiary.util.toPickupBookEntity
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.glide.transformations.BlurTransformation
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 
 @AndroidEntryPoint
@@ -37,25 +33,36 @@ class DetailActivity : BaseActivity<DetailActivityBinding, DetailViewModel>() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        EventBus.getDefault().unregister(this)
-    }
 
     override fun initViews() {
         super.initViews()
         bookInfo = intent.getParcelableExtra("bookInfo")!!
         viewModel.setBookInfo(bookInfo)
-        setFavoriteButton()
     }
 
     override fun initObserve() {
         viewModel.bookInfoLiveData.observe(this){
             setBookInfo(it)
-            pickupViewModel.insertPickupBook(it.toPickupBookEntity())
         }
         viewModel.backClick.observe(this){
             finish()
+        }
+        viewModel.favoriteClick.observe(this){
+            when (bookInfo.favorite) {
+                true -> {
+                    viewModel.setBookFavorite(false)
+                    bookInfo.favorite = false
+                    setFavoriteButtonState()
+                }
+                false -> {
+                    viewModel.setBookFavorite(true)
+                    bookInfo.favorite = true
+                    setFavoriteButtonState()
+                    //pickupViewModel.onInsertClick(bookInfo.toPickupBookEntity())
+                    //pickupViewModel.insertPickupBook(bookInfo.toPickupBookEntity())
+                    EventBus.getDefault().post(BookInfoEvent(bookInfo))
+                }
+            }
         }
     }
     private fun setBookInfo(bookInfo: BookInfo){
@@ -85,31 +92,14 @@ class DetailActivity : BaseActivity<DetailActivityBinding, DetailViewModel>() {
             setFavoriteButtonState()
         }
     }
-    private fun setFavoriteButton(){
-        dataBinding.iwFavorite.setOnClickListener {
-            when (bookInfo.favorite) {
-                true -> {
-                    viewModel.setBookFavorite(false)
-                    bookInfo.favorite = false
-                    setFavoriteButtonState()
-                }
-                false -> {
-                    viewModel.setBookFavorite(true)
-                    bookInfo.favorite = true
-                    setFavoriteButtonState()
-                }
-            }
-        }
-    }
     private fun setFavoriteButtonState(){
         when (bookInfo.favorite) {
             true -> dataBinding.iwFavorite.setImageResource(R.drawable.ic_baseline_star_24)
             false -> dataBinding.iwFavorite.setImageResource(R.drawable.ic_baseline_star_border_24)
         }
     }
-
-    @Subscribe
-    fun onEvent(event: BookInfoEvent){
-        viewModel.setBookInfo(event.bookInfo)
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    fun onEvent(e: BookInfoEvent){
+        Log.e("","찜 리스트 호출 in detail ${e.bookInfo.title}")
     }
 }
