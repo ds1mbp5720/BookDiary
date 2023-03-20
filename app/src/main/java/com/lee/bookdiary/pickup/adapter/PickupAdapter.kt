@@ -46,6 +46,10 @@ class PickupAdapter: RecyclerView.Adapter<BaseViewHolder>(), ItemHelperCallBack.
         items.addAll(item)
         notifyDataSetChanged()
     }
+    fun addItem(item: PickupBookEntity){
+        items.add(item)
+        notifyItemInserted(items.size)
+    }
     fun removeItem(position: Int) {
         items.removeAt(position)
         notifyItemRemoved(position)

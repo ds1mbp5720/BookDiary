@@ -14,13 +14,11 @@ import com.lee.bookdiary.R
 import com.lee.bookdiary.base.BaseFragment
 import com.lee.bookdiary.databinding.SearchFragmentBinding
 import com.lee.bookdiary.detail.DetailActivity
-import com.lee.bookdiary.eventbus.BookInfoEvent
 import com.lee.bookdiary.pickup.PickupViewModel
 import com.lee.bookdiary.search.adapter.SearchAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.greenrobot.eventbus.EventBus
 
 @AndroidEntryPoint
 class SearchFragment:BaseFragment<SearchFragmentBinding,SearchViewModel>(){
@@ -102,7 +100,6 @@ class SearchFragment:BaseFragment<SearchFragmentBinding,SearchViewModel>(){
 
         searchAdapter = SearchAdapter() { bookInfo, position, _ ->
             //Todo 자세히 보기 activity 추가하기
-            EventBus.getDefault().post(BookInfoEvent(bookInfo))
             val intent = Intent(requireContext(), DetailActivity::class.java)
             intent.putExtra("bookInfo", bookInfo)
             startActivity(intent)

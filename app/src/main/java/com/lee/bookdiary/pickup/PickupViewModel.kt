@@ -38,6 +38,12 @@ class PickupViewModel @Inject constructor(application: Application): BaseViewMod
         }
     }
 
+    private val _insertClick = SingleLiveEvent<PickupBookEntity>()
+    val insertClick: LiveData<PickupBookEntity> get() = _insertClick
+    fun onInsertClick(pickupBook: PickupBookEntity) {
+        _insertClick.value = pickupBook
+    }
+
     private val _deleteClick = SingleLiveEvent<PickupBookEntity>()
     val deleteClick: LiveData<PickupBookEntity> get() = _deleteClick
     fun onDeleteClick(pickupBook: PickupBookEntity) {

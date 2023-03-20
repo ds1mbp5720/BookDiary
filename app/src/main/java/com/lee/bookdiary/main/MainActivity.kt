@@ -2,7 +2,6 @@ package com.lee.bookdiary.main
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.lee.bookdiary.R
@@ -27,21 +26,28 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setFragment(SearchFragment.newInstance(), SearchFragment.TAG)
+        setFragment(PickupFragment.newInstance(), PickupFragment.TAG)
     }
 
     override fun onResume() {
         super.onResume()
+        val pickupFragment = supportFragmentManager.findFragmentByTag(PickupFragment.TAG)
+        if (pickupFragment != null) {
+            supportFragmentManager.beginTransaction()
+                .hide(pickupFragment)
+                .commitAllowingStateLoss()
+        }
         initSettingNavigation()
     }
 
     override fun initViews() {
         super.initViews()
         when(viewModel.currentFragmentTag.value) {
-            null -> showFragment(SearchFragment.newInstance(), SearchFragment.TAG)
-            SearchFragment.TAG -> showFragment(SearchFragment.newInstance(), SearchFragment.TAG)
-            PickupFragment.TAG -> showFragment(PickupFragment.newInstance(), PickupFragment.TAG)
+            null -> showFragment(SearchFragment.TAG)
+            SearchFragment.TAG -> showFragment(SearchFragment.TAG)
+            PickupFragment.TAG -> showFragment(PickupFragment.TAG)
         }
-        Log.e("","터치: ${viewModel.currentFragmentTag.value}")
     }
 
     @SuppressLint("ResourceAsColor")
@@ -55,7 +61,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
             dataBinding.drawerLayout.closeDrawer(dataBinding.navigationViewMain)
         }
         viewModel.readCountClick.observe(this){
-            //Todo 선택 이벤트로 변경(fragment 이동)
             dataBinding.twPickupBookCnt.setTextColor(R.color.teal_200)
             viewModel.setCurrentFragment(PickupFragment.TAG)
         }
@@ -67,14 +72,17 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
         }
         viewModel.currentFragmentTag.observe(this){
             when(it){
-                null -> showFragment(SearchFragment.newInstance(), SearchFragment.TAG)
-                SearchFragment.TAG -> showFragment(SearchFragment.newInstance(), SearchFragment.TAG)
-                PickupFragment.TAG -> showFragment(PickupFragment.newInstance(), PickupFragment.TAG)
+                null -> showFragment(SearchFragment.TAG)
+                SearchFragment.TAG -> showFragment(SearchFragment.TAG)
+                PickupFragment.TAG -> showFragment(PickupFragment.TAG)
             }
         }
     }
-
-    private fun showFragment(fragment: Fragment, tag: String) {
+    private fun setFragment(fragment: Fragment, tag: String){
+        supportFragmentManager.beginTransaction().add(R.id.fragment_container_view, fragment, tag)
+            .commitAllowingStateLoss()
+    }
+    private fun showFragment(tag: String) {
         val findFragment = supportFragmentManager.findFragmentByTag(tag)
         supportFragmentManager.fragments.forEach {
             supportFragmentManager.beginTransaction()
@@ -84,9 +92,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
         findFragment?.let {
             supportFragmentManager.beginTransaction()
                 .show(it)
-                .commitAllowingStateLoss()
-        } ?: kotlin.run {
-            supportFragmentManager.beginTransaction().add(R.id.fragment_container_view, fragment, tag)
                 .commitAllowingStateLoss()
         }
     }

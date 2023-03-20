@@ -1,19 +1,21 @@
 package com.lee.bookdiary.pickup
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.bookdiary.R
 import com.lee.bookdiary.base.BaseFragment
 import com.lee.bookdiary.databinding.PickupFragmentBinding
 import com.lee.bookdiary.dialog.DialogMessage
+import com.lee.bookdiary.eventbus.BookInfoEvent
 import com.lee.bookdiary.pickup.adapter.PickupAdapter
 import com.lee.bookdiary.pickup.data.PickupBookRoomDatabase
+import com.lee.bookdiary.util.toPickupBookEntity
 import dagger.hilt.android.AndroidEntryPoint
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 @AndroidEntryPoint
 class PickupFragment: BaseFragment<PickupFragmentBinding,PickupViewModel>() {
@@ -32,7 +34,11 @@ class PickupFragment: BaseFragment<PickupFragmentBinding,PickupViewModel>() {
         db = context?.let { PickupBookRoomDatabase.getDatabase(it) }!!
         viewModel.getPickupBookList(db)
         pickupAdapter.setViewModel(viewModel)
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this)
+        }
     }
+
 
     override fun initObserve() {
         super.initObserve()
@@ -40,6 +46,10 @@ class PickupFragment: BaseFragment<PickupFragmentBinding,PickupViewModel>() {
             pickupAdapter.clearList()
             pickupAdapter.setList(it)
         }
+        viewModel.insertClick.observe(this){ data ->
+            pickupAdapter.addItem(data)
+        }
+
         viewModel.deleteClick.observe(this){ data ->
             DialogMessage("찜을 해제하시겠습니까?",getString(R.string.str_confirm),getString(R.string.str_cancel)).onRightBtn{
                 viewModel.deletePickupBook(data.id)
@@ -58,5 +68,10 @@ class PickupFragment: BaseFragment<PickupFragmentBinding,PickupViewModel>() {
         dataBinding.recyclerPickup.layoutManager = LinearLayoutManager(requireContext())
         dataBinding.recyclerPickup.itemAnimator = null
         dataBinding.recyclerPickup.adapter = pickupAdapter
+    }
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    fun onEvent(e: BookInfoEvent){
+        viewModel.insertPickupBook(e.bookInfo.toPickupBookEntity())
+        pickupAdapter.addItem(e.bookInfo.toPickupBookEntity())
     }
 }

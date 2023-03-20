@@ -71,6 +71,7 @@
                 android:layout_height="50dp"
                 android:padding="10dp"
                 android:src="@drawable/ic_baseline_star_border_24"
+                android:onClick="@{()->viewModel.onFavoriteClick()}"
                 app:layout_constraintEnd_toEndOf="@id/guideline_end"
                 app:layout_constraintTop_toTopOf="@id/iw_back" />
 
