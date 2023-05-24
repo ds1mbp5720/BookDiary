@@ -2,6 +2,7 @@
 ## 책 검색 및 기록 App
 > 1. 다음 책 검색 api 활용 검색 및 저장 앱
 > 2. EventBus, Paging3 등 라이브러리 사용
+> 3. compose 사용 및 연습('23.06.01~)
 > 4. 개발 플랫폼:  Android Studio Dolphin, API Level 33
 ------------
 ### 개발환경
@@ -15,8 +16,9 @@
 + dataBinding사용
 + Room DB 
 + Paging3 
-+ DI Hilt   
-+ OkHttp4/Retrofit 활용 Coroutine을 이용한 REST 처리 
++ DI Hilt  
++ compose -예정 
++ OkHttp/Retrofit 활용 Coroutine을 이용한 REST 처리 
 ------------
 ### 사용 API
 + kakao REST API
