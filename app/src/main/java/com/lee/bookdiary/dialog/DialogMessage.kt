@@ -2,6 +2,10 @@ package com.lee.bookdiary.dialog
 
 import android.os.Bundle
 import android.view.View
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.lee.bookdiary.R
@@ -17,8 +21,7 @@ class DialogMessage(
     private val isCancel : Boolean = true,
     private val withClose : Boolean = false,
     private val title : String = ""
-) :
-    BaseDialogFragment<DialogMessageBinding, DialogMessageViewModel>() {
+) : BaseDialogFragment<DialogMessageBinding, DialogMessageViewModel>() {
     override val layoutId: Int = R.layout.dialog_message
     override val viewModel: DialogMessageViewModel by viewModels()
     private var leftClickAction = {}
@@ -61,5 +64,33 @@ class DialogMessage(
         rightClickAction = action
         return this
     }
+}
 
+@Composable
+fun FirstComposeTestDialog() {
+    AlertDialog(
+        onDismissRequest = {/*todo*/},
+        confirmButton = {
+            Button(onClick = {/*todo*/}){
+                Text(text = "확인")
+            }
+        },
+        dismissButton = {
+            Button(onClick = {/*todo*/}){
+                Text(text = "취소")
+            }
+        },
+        title = {
+            Text(text = "테스트 다이얼로그 제목")
+        },
+        text = {
+            Text(text = "내용")
+        }
+    )
+}
+
+@Preview
+@Composable
+fun testDialog(){
+    FirstComposeTestDialog()
 }
