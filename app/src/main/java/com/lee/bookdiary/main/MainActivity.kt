@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.lee.bookdiary.R
 import com.lee.bookdiary.base.BaseActivity
 import com.lee.bookdiary.databinding.ActivityMainBinding
+import com.lee.bookdiary.dialog.BaseDialogMessage
 import com.lee.bookdiary.dialog.DialogMessage
 import com.lee.bookdiary.eventbus.ScreenModeEvent
 import com.lee.bookdiary.pickup.PickupFragment
@@ -117,9 +118,12 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
             dataBinding.drawerLayout.close()
             return
         }
-        DialogMessage(getString(R.string.str_destroy_app), getString(R.string.str_confirm), getString(R.string.str_cancel)).onRightBtn {
+       /*DialogMessage(getString(R.string.str_destroy_app), getString(R.string.str_confirm), getString(R.string.str_cancel)).onRightBtn {
             finish()
-        }.show(supportFragmentManager, "")
+        }.show(supportFragmentManager, "")*/
+        DialogMessage(getString(R.string.str_destroy_app), getString(R.string.str_confirm), getString(R.string.str_cancel),
+            rightClickAction =  { finish() }
+        ).show(supportFragmentManager, "")
     }
 
     @Subscribe
