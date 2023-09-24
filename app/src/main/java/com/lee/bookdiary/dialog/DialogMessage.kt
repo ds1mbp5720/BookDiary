@@ -35,12 +35,12 @@ data class DialogContent( // 다이얼로그 기본 구성요소 data class
 )
 
 class DialogMessage(
-    private val msg: String = "",
+    private val title: String = "",
     private val rightBtn: String,
     private val leftBtn: String = "",
     private val isCancel : Boolean = true,
     private val withClose : Boolean = false,
-    private val title : String = "",
+    private val msg : String = "",
     private var rightClickAction: () -> Unit = {},
     private var leftClickAction: () -> Unit = {}
 ) : DialogFragment(){
@@ -52,7 +52,10 @@ class DialogMessage(
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                OpenDialog(content = DialogContent(title, msg, rightBtn, leftBtn, isCancel, withClose, rightClickAction, leftClickAction))
+                OpenDialog(
+                    content = DialogContent(title, msg, rightBtn, leftBtn, isCancel, withClose, rightClickAction, leftClickAction),
+                    dismissAction = {this@DialogMessage.dismiss()}
+                    )
             }
         }
     }
@@ -106,7 +109,7 @@ class DialogMessage(
 }
 
 @Composable
-fun OpenDialog(content: DialogContent){
+fun OpenDialog(content: DialogContent, dismissAction: ()-> Unit){
     //todo 다이얼로그 사라짐, 배경은 뿌연게 유지됨
     val showDialog = remember { mutableStateOf(true) }
     if(showDialog.value){
@@ -114,10 +117,7 @@ fun OpenDialog(content: DialogContent){
             content = content,
             onDismissRequest = {showDialog.value = false }
         )
-    }
-    /*BackHandler {
-        showDialog.value = false
-    }*/
+    } else dismissAction.invoke() // 기존 fragment에서 제거하려면 해당 fragment class 를 dismiss하도록 해야함
 }
 
 //todo ui 조정 필요
