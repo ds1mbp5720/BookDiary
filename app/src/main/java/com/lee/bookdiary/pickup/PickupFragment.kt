@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lee.bookdiary.R
 import com.lee.bookdiary.base.BaseFragment
 import com.lee.bookdiary.databinding.PickupFragmentBinding
+import com.lee.bookdiary.dialog.BaseDialogMessage
 import com.lee.bookdiary.dialog.DialogMessage
 import com.lee.bookdiary.eventbus.BookInfoEvent
 import com.lee.bookdiary.pickup.adapter.PickupAdapter
@@ -51,11 +52,17 @@ class PickupFragment: BaseFragment<PickupFragmentBinding,PickupViewModel>() {
         }
 
         viewModel.deleteClick.observe(this){ data ->
-            DialogMessage("찜을 해제하시겠습니까?",getString(R.string.str_confirm),getString(R.string.str_cancel)).onRightBtn{
+            /*DialogMessage("찜을 해제하시겠습니까?",getString(R.string.str_confirm),getString(R.string.str_cancel)).onRightBtn{
                 viewModel.deletePickupBook(data.id)
                 val position = pickupAdapter.getItems().indexOfFirst { it.id == data.id }
                 if (position >-1) pickupAdapter.removeItem(position)
-            }.show(parentFragmentManager,"")
+            }.show(parentFragmentManager,"")*/
+            DialogMessage(title = "찜을 해제하시겠습니까?", rightBtn = getString(R.string.str_confirm), leftBtn = getString(R.string.str_cancel),
+                rightClickAction = {
+                viewModel.deletePickupBook(data.id)
+                val position = pickupAdapter.getItems().indexOfFirst { it.id == data.id }
+                if (position >-1) pickupAdapter.removeItem(position)},
+            ).show(parentFragmentManager,"")
         }
     }
 
