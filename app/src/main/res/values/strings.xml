@@ -6,7 +6,10 @@
     <string name="search">검색</string>
     <string name="search_book">제목, 저자, 출판사 검색</string>
 
-    <string name="str_destroy_app">앱을 종료하시겠습니까?</string>
+    <string name="str_destroy_app_title">앱 종료</string>
+    <string name="str_destroy_app_text">정말로 앱을 종료하시겠습니까?</string>
+    <string name="str_pickup_title">찜 목록 제거</string>
+    <string name="str_pickup_text">찜 목록에서 제거하시겠습니까?</string>
     <string name="str_cancel">취소</string>
     <string name="str_confirm">확인</string>
     <string name="iso_date_format">yyyy-MM-dd\'T\'HH:mm:ss.SSSX</string>
