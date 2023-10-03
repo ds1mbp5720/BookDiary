@@ -1,19 +1,26 @@
 package com.lee.bookdiary.dialog
 
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.border
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -63,49 +70,6 @@ class DialogMessage(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
-    /*BaseDialogFragment<DialogMessageBinding, DialogMessageViewModel>() {
-    override val layoutId: Int = R.layout.dialog_message
-    override val viewModel: DialogMessageViewModel by viewModels()
-    private var leftClickAction = {}
-    private var rightClickAction = {}
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        dataBinding.setVariable(BR.msg, msg)
-        dataBinding.setVariable(BR.title , title)
-        dataBinding.txtDialogTitle.isVisible = !title.isNullOrEmpty()
-        dataBinding.txtDialogRight.text = rightBtn
-        if (leftBtn.isNotEmpty()) {
-            dataBinding.txtDialogLeft.text = leftBtn
-            dataBinding.groupBtnOne.isVisible = true
-        }
-        if(!isCancel) isCancelable = isCancel
-        dataBinding.ivClose.isVisible = withClose
-    }
-
-    override fun initObserve() {
-        viewModel.leftClick.observe(this) {
-            leftClickAction.invoke()
-            dismiss()
-        }
-        viewModel.rightClick.observe(this) {
-            rightClickAction.invoke()
-            dismiss()
-        }
-        viewModel.closeClick.observe(this) {
-            dismiss()
-        }
-    }
-
-    fun onLeftBtn(action: () -> (Unit) = {}): DialogMessage {
-        leftClickAction = action
-        return this
-    }
-
-    fun onRightBtn(action: () -> (Unit) = {}): DialogMessage {
-        rightClickAction = action
-        return this
-    }*/
 }
 
 @Composable
@@ -127,32 +91,69 @@ fun BaseDialogMessage(
     onDismissRequest: () -> Unit
 ) {
     AlertDialog(
+        modifier = Modifier.border(
+            width = 3.dp,
+            color = Teal700,
+            shape = RectangleShape
+        ),
         onDismissRequest = { onDismissRequest.invoke() },
         confirmButton = {
             Button(
-                onClick = { content.rightClickAction.invoke() },
+                modifier = Modifier.border(
+                    width = 3.dp,
+                    color = Teal700,
+                    shape = CircleShape
+                ),
+                onClick = {
+                    content.rightClickAction.invoke()
+                    onDismissRequest.invoke()
+                          },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = androidx.compose.ui.graphics.Color.Cyan,
-                    contentColor = androidx.compose.ui.graphics.Color.Black
+                    containerColor = White,
+                    contentColor = Black
                 )
             ){
-                Text(text = content.rightBtn)
+                Text(
+                    text = content.rightBtn,
+                    fontSize = 20.sp
+                )
             }
         },
         dismissButton = {
             if(content.leftBtn.isNotEmpty()) {
                 Button(
-                    onClick = {onDismissRequest.invoke()}
+                    modifier = Modifier.border(
+                        width = 3.dp,
+                        color = Teal700,
+                        shape = CircleShape
+                    ),
+                    onClick = {onDismissRequest.invoke()},
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = White,
+                        contentColor = Black
+                    )
                 ){
-                    Text(text = content.leftBtn)
+                    Text(
+                        text = content.leftBtn,
+                        fontSize = 20.sp
+                    )
                 }
             } else null
         },
         title = {
-            Text(text = content.title)
+            Text(
+                text = content.title,
+                fontSize = 24.sp,
+                fontStyle = FontStyle.Italic
+            )
         },
         text = {
-            Text(text = content.msg)
-        }
+            Text(
+                text = content.msg,
+                fontSize = 20.sp,
+                fontStyle = FontStyle.Normal
+            )
+        },
+        containerColor = White
     )
 }

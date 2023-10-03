@@ -121,7 +121,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(){
        /*DialogMessage(getString(R.string.str_destroy_app), getString(R.string.str_confirm), getString(R.string.str_cancel)).onRightBtn {
             finish()
         }.show(supportFragmentManager, "")*/
-        DialogMessage(getString(R.string.str_destroy_app), getString(R.string.str_confirm), getString(R.string.str_cancel),
+        DialogMessage(getString(R.string.str_destroy_app_title), getString(R.string.str_confirm), getString(R.string.str_cancel), msg = getString(R.string.str_destroy_app_text),
             rightClickAction =  { finish() }
         ).show(supportFragmentManager, "")
     }

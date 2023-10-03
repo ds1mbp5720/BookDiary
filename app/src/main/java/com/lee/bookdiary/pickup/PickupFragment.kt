@@ -57,7 +57,7 @@ class PickupFragment: BaseFragment<PickupFragmentBinding,PickupViewModel>() {
                 val position = pickupAdapter.getItems().indexOfFirst { it.id == data.id }
                 if (position >-1) pickupAdapter.removeItem(position)
             }.show(parentFragmentManager,"")*/
-            DialogMessage(title = "찜을 해제하시겠습니까?", rightBtn = getString(R.string.str_confirm), leftBtn = getString(R.string.str_cancel),
+            DialogMessage(title = getString(R.string.str_pickup_title), rightBtn = getString(R.string.str_confirm), leftBtn = getString(R.string.str_cancel), msg = getString(R.string.str_pickup_text),
                 rightClickAction = {
                 viewModel.deletePickupBook(data.id)
                 val position = pickupAdapter.getItems().indexOfFirst { it.id == data.id }
