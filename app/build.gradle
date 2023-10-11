@@ -128,5 +128,7 @@ dependencies {
     implementation "androidx.compose.material3:material3:1.0.1"
     implementation "androidx.compose.material3:material3-window-size-class:1.0.1"
 
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
+
     implementation 'com.google.firebase:firebase-firestore-ktx:24.5.0'
 }
